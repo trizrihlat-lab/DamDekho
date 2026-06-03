@@ -47,21 +47,53 @@ fetch(API_URL)
 .then(res => res.json())
 .then(data => {
 
-  let html = "";
+  let grouped = {};
 
   data.forEach(item => {
-
-    html += `
-      <div class="card">
-        <h2>${item.product}</h2>
-        <p>Store: ${item.store}</p>
-        <p class="price">Price: ৳${item.price}</p>
-        <a href="${item.link}" target="_blank">Buy Now</a>
-      </div>
-    `;
-
+    if (!grouped[item.product]) {
+      grouped[item.product] = [];
+    }
+    grouped[item.product].push(item);
   });
 
+  let html = "";
+
+  Object.keys(grouped).forEach(productName => {
+
+    let items = grouped[productName];
+
+    let minPrice = Math.min(...items.map(i => Number(i.price)));
+
+    html += `<div style="background:white;padding:15px;margin:10px;border-radius:10px;">`;
+    html += `<h2>${productName}</h2>`;
+
+    items.forEach(item => {
+
+      let isCheapest = Number(item.price) === minPrice;
+
+      html += `
+        <div style="
+          padding:8px;
+          margin:5px 0;
+          border:1px solid #ddd;
+          border-radius:5px;
+          ${isCheapest ? 'background:#d4edda;border-color:green;' : ''}
+        ">
+          <b>Store:</b> ${item.store} <br>
+          <b>Price:</b> ৳${item.price} 
+          ${isCheapest ? '🔥 Lowest Price' : ''}
+          <br>
+          <a href="${item.link}" target="_blank">Buy</a>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  });
+
+  document.getElementById("products").innerHTML = html;
+
+});
   document.getElementById("products").innerHTML = html;
 
 });
