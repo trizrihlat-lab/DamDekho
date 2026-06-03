@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ToolKit Compare</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .price {
+      color: green;
+      font-weight: bold;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: blue;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🔥 ToolKit Comparison</h1>
+
+<div id="products"></div>
+
+<script>
+const API_URL = "https://opensheet.elk.sh/1Ww1i2WQ5HeDkcDaDRdh7V0Gb9QUNSsh8y7VYK4xtWsU/Products";
+
+fetch(API_URL)
+.then(res => res.json())
+.then(data => {
+
+  let html = "";
+
+  data.forEach(item => {
+
+    html += `
+      <div class="card">
+        <h2>${item.product}</h2>
+        <p>Store: ${item.store}</p>
+        <p class="price">Price: ৳${item.price}</p>
+        <a href="${item.link}" target="_blank">Buy Now</a>
+      </div>
+    `;
+
+  });
+
+  document.getElementById("products").innerHTML = html;
+
+});
+</script>
+
+</body>
+</html>
