@@ -61,11 +61,19 @@ fetch(API_URL)
   Object.keys(grouped).forEach(productName => {
 
     let items = grouped[productName];
-
     let minPrice = Math.min(...items.map(i => Number(i.price)));
 
-    html += `<div style="background:white;padding:15px;margin:10px;border-radius:10px;">`;
-    html += `<h2>${productName}</h2>`;
+    html += `
+      <div style="
+        background:white;
+        margin:20px 0;
+        padding:15px;
+        border-radius:12px;
+        box-shadow:0 4px 10px rgba(0,0,0,0.1);
+      ">
+
+      <h2 style="margin-bottom:10px;">🔥 ${productName}</h2>
+    `;
 
     items.forEach(item => {
 
@@ -73,17 +81,34 @@ fetch(API_URL)
 
       html += `
         <div style="
-          padding:8px;
-          margin:5px 0;
-          border:1px solid #ddd;
-          border-radius:5px;
-          ${isCheapest ? 'background:#d4edda;border-color:green;' : ''}
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          padding:10px;
+          margin:8px 0;
+          border:1px solid #eee;
+          border-radius:10px;
+          ${isCheapest ? 'background:#e8f5e9;border:2px solid green;' : ''}
         ">
-          <b>Store:</b> ${item.store} <br>
-          <b>Price:</b> ৳${item.price} 
-          ${isCheapest ? '🔥 Lowest Price' : ''}
-          <br>
-          <a href="${item.link}" target="_blank">Buy</a>
+
+          <div style="display:flex;align-items:center;gap:10px;">
+
+            <img src="${item.image}" 
+                 style="width:50px;height:50px;border-radius:8px;object-fit:cover;">
+
+            <div>
+              <b>${item.store}</b><br>
+              ৳${item.price}
+              ${isCheapest ? '🔥 Lowest' : ''}
+            </div>
+
+          </div>
+
+          <a href="${item.link}" target="_blank"
+             style="background:blue;color:white;padding:8px 12px;border-radius:6px;text-decoration:none;">
+             Buy
+          </a>
+
         </div>
       `;
     });
@@ -94,7 +119,6 @@ fetch(API_URL)
   document.getElementById("products").innerHTML = html;
 
 });
-
 </script>
 
 </body>
