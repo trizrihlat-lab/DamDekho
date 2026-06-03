@@ -1,2 +1,2 @@
 # DamDekho
-PRice Comparison Website
+Price Comparison Website
